@@ -1,0 +1,5 @@
+# List environment variables to pass to the Docker container
+# Note: no white space is allowed around "="
+PSDK_BASE_PATH=/usr/include/processor_sdk
+SDK_DIR=/opt/robotics_sdk
+PYTHONPATH=/usr/lib/python3/dist-packages:/host/usr/lib/python3.8/site-packages:/opt/robot/edgeai-robotics-demos/python:/opt/edge_ai_apps/apps_python

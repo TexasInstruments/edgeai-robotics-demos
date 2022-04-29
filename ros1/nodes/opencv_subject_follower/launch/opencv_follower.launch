@@ -1,0 +1,44 @@
+<launch>
+
+    <!-- Input source -->
+    <arg name = "output_topic" default = "out_image" />
+    <arg name = "twist_topic"  default = "cmd_vel" />
+
+    <!-- Default log level -->
+    <arg name = "log_level"   default = "ERROR" />
+
+    <!-- Default robot configuration -->
+    <arg name = "robot_config" default = "/opt/robot/edgeai-robotics-demos/python/common/scuttlepy/config/scuttle_sk_config.yaml" />
+
+    <!-- ti_vision_cnn -->
+    <node pkg = "opencv_subject_follower"
+          type = "opencv_subject_follower.py"
+          name = "opencv_subject_follower"
+          output = "screen" >
+
+        <!-- Operational parameters -->
+        <rosparam file="/opt/robot/edgeai-robotics-demos/python/apps/opencv_subject_follower/subject_follower.yaml" />
+
+        <!-- Log level -->
+        <param name= "log_level" value = "$(arg log_level)" />
+
+        <!-- Output image topic name to publish -->
+        <param name= "output_topic" value = "$(arg output_topic)" />
+
+        <!-- Output semantic segmentation tensor topic name to publish to -->
+        <param name = "twist_topic" value = "$(arg twist_topic)" />
+
+    </node>
+
+    <!-- scuttle_driver -->
+    <node pkg = "scuttle_driver"
+          type = "scuttle_driver.py"
+          name = "scuttle_driver"
+          output = "screen" >
+
+        <!-- Default robot configuration -->
+        <param name = "robot_config" value = "$(arg robot_config)" />
+
+    </node>
+
+</launch>

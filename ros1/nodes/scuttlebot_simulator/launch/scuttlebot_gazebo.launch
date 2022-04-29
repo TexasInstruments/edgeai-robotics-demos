@@ -1,0 +1,49 @@
+<launch>
+
+
+    <!--Launch Gazebo Simulator with Scuttlebot-->
+    <!-- Initial position of scuttlebot-->
+    <arg name="x_pos" default="-3.0"/> 
+    <arg name="y_pos" default="1.5"/>
+    <arg name="z_pos" default="0.0"/>
+    
+    <!-- Parameters of camera -->
+    <arg name="camera_link" default="0.02" /> <!-- Size of square 'camera' box -->
+    <arg name="camera_height" default="1" /> <!-- Height of lens -->
+    <arg name="axel_offset" default="0.05" /> <!-- Space btw top of beam and the each joint -->
+
+    <arg name="image_width" default="1280" /> <!-- Width of image -->
+    <arg name="image_height" default="720" /> <!-- Height of image -->
+    <arg name="camera_name" default="scuttle/camera1" /> <!-- Camera Name -->
+
+    <!-- Convert Node Args-->
+    <arg name="subscribe_topic" default="$(arg camera_name)/image_raw"/> <!-- Image topic published by scuttlebot and subscribed by convert node-->
+    <arg name="publish_topic" default="camera/image_raw" /> <!-- Publish topic name after conversion -->
+    <arg name="convert_to" default="nv12" /> <!-- uvyy or nv12 or rgb-->
+    <arg name="input_type" default="raw" /> <!-- compressed or raw -->
+
+    <include file="$(find scuttlebot_simulator)/launch/convert_node.launch">
+        <arg name="subscribe_topic" value="$(arg subscribe_topic)"/>
+        <arg name="publish_topic" value="$(arg publish_topic)" />
+        <arg name="convert_to" value="$(arg convert_to)" />
+        <arg name="input_type" value="$(arg input_type)" />
+    </include>
+
+    <param command="$(find xacro)/xacro $(find scuttlebot_simulator)/urdf/scuttle_camera.xacro camera_link:=$(arg camera_link) height3:=$(arg camera_height) axel_offset:=$(arg axel_offset) image_width:=$(arg image_width) image_height:=$(arg image_height) camera_name:=$(arg camera_name)" name="robot_description"/>
+    <node args="-param robot_description -urdf -model scuttle -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R 0.0 -P 0.0 -Y 0.0" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"/>
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    
+    <!-- Launch World-->
+    <!--Hospital World-->
+    <include file="$(find aws_robomaker_hospital_world)/launch/hospital.launch">
+        <arg name="gui" value="true"/>
+    </include>
+
+    <!--Warehouse World
+    <include file="$(find aws_robomaker_small_warehouse_world)/launch/small_warehouse.launch">
+        <arg name="gui" value="true"/>
+    </include>
+    -->
+
+</launch>

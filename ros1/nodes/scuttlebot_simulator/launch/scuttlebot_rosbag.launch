@@ -1,0 +1,23 @@
+<launch>
+
+    <!-- Launch Convert Node -->
+    <arg name="subscribe_topic" default="/scuttle/camera1/image_raw/compressed"/> <!-- Image topic published by scuttlebot and subscribed by convert node-->
+    <arg name="publish_topic" default="camera/image_raw" /> <!-- Publish topic name after conversion -->
+    <arg name="convert_to" default="nv12" /> <!-- uvyy or nv12 or rgb-->
+    <arg name="input_type" default="compressed" /> <!-- compressed or raw -->
+
+    <include file="$(find scuttlebot_simulator)/launch/convert_node.launch">
+        <arg name="subscribe_topic" value="$(arg subscribe_topic)"/>
+        <arg name="publish_topic" value="$(arg publish_topic)" />
+        <arg name="convert_to" value="$(arg convert_to)" />
+        <arg name="input_type" value="$(arg input_type)" />
+    </include>
+
+    <!--Launch Rosbag-->
+    <arg name="bagfile" default="$(find scuttlebot_simulator)/data/rosbag/scuttlebot.bag" />
+    <arg name="ratefactor" default="1.0"/>
+    <node name="rosbag_play" pkg="rosbag" type="play" output="screen"
+        args="-r $(arg ratefactor) -l $(arg bagfile)">
+    </node>
+
+</launch>

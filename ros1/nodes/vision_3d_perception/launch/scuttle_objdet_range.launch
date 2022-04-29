@@ -1,0 +1,15 @@
+<launch>
+
+	<arg name="zed_sn" default="SN18059"/>
+	<arg name="exportPerfStats" default="0"/>
+
+    <!-- zed_objdet_range.launch: part of Robotics SDK -->
+    <include file="$(find ti_objdet_range)/launch/zed_objdet_range.launch">
+        <arg name="zed_sn" value="$(arg zed_sn)"/>
+		<arg name="exportPerfStats" value="$(arg exportPerfStats)"/>
+    </include>
+
+	<!-- gamepad_motor_control.launch -->
+    <include file="$(find gamepad_controller)/launch/gamepad_motor_control.launch"/>
+
+</launch>

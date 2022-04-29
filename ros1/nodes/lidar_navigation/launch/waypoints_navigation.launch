@@ -1,0 +1,18 @@
+<launch>
+
+    <param name="num_waypoints" value="4" />
+    <param name="xy_goal_tolerance" value="0.1" />
+    <param name="yaw_goal_tolerance" value="0.05" />
+
+    <node pkg = "lidar_navigation"
+          type = "waypoints_navigation.py"
+          name = "lidar_navigation"
+          output = "screen" >
+
+        <!-- Load Sequence of Points (Cartesian Coordinates wrt "map" RF, in meters) -->
+        <rosparam param="/waypoints_xyz">[-0.8130,-4.0076,0.0, 0.8427,-4.0030,0.0, 0.8059,0.4582,0.0, -0.6907,0.4582,0.0]</rosparam>
+        <!-- Load Sequence of Desired Yaw Angles (no rotations around x and y axes) in degrees-->
+        <rosparam param="/waypoints_yaw">[0, 90, 180, -90]</rosparam>
+    </node>
+
+</launch>

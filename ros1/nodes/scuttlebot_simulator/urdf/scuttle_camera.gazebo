@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<robot name="scuttle" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+<xacro:arg name="image_width" default="1280" />
+<xacro:arg name="image_height" default="720" />
+<xacro:arg name="camera_name" default="scuttle/camera1" />
+
+<xacro:property name="image_width" value="$(arg image_width)" /> 
+<xacro:property name="image_height" value="$(arg image_height)" />
+<xacro:property name="camera_name" value="$(arg camera_name)" /> 
+
+
+<!-- camera_link -->
+<gazebo reference="camera_link">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <material>Gazebo/Red</material>
+</gazebo>
+
+<!-- camera -->
+  <gazebo reference="camera_link">
+    <sensor type="camera" name="camera1">
+      <update_rate>30.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>${image_width}</width>
+          <height>${image_height}</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip> 
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise is sampled independently per pixel on each frame.
+               That pixel's noise value is added to each of its color
+               channels, which at that point lie in the range [0,1]. -->
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>${camera_name}</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_link_optical</frameName>
+        <!-- setting hackBaseline to anything but 0.0 will cause a misalignment
+            between the gazebo sensor image and the frame it is supposed to
+            be attached to -->
+        <hackBaseline>0.0</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+        <CxPrime>0</CxPrime>
+        <Cx>0.0</Cx>
+        <Cy>0.0</Cy>
+        <focalLength>0.0</focalLength>
+      </plugin>
+    </sensor>
+</gazebo>
+</robot>

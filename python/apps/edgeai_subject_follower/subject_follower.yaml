@@ -1,0 +1,27 @@
+# Processing chain setup configuration
+process_config: '/opt/robot/edgeai-robotics-demos/python/apps/edgeai_subject_follower/process_config.yaml'
+
+# SCUTTLE configuration
+robot_config: '/opt/robot/edgeai-robotics-demos/python/common/scuttlepy/config/scuttle_sk_config.yaml'
+
+# The input image width
+input_width: 1280
+
+# The input image height
+input_height: 720
+
+# Minimum radius of the object to start following
+min_radius: 20
+
+# Target radius of the object where the target has achieved its goal
+target_radius: 400
+
+# Center threshold in pixels
+center_threshold: 50
+
+# Object with the class name to track
+target_class: "sports"
+
+# Minimum probability for considering objects for tracking
+prob_threshold: 0.1
+

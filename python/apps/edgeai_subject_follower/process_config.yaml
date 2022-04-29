@@ -1,0 +1,35 @@
+# Demo title
+title: "EdgeAI Based Subject Tracking Demo"
+
+inputs:
+    input0:
+        source: /dev/video2
+        format: jpeg
+        width: 1280
+        height: 720
+        framerate: 15
+models:
+    model0:
+        model_path: /opt/model_zoo/TFL-OD-2020-ssdLite-mobDet-DSP-coco-320x320
+        viz_threshold: 0.6
+outputs:
+    output0:
+        sink: fakesink
+        width: 1920
+        height: 1080
+    output1:
+        sink: kmssink
+        width: 1920
+        height: 1080
+
+flows:
+    flow0:
+        input: input0
+        models: [model0]
+        outputs: [output0]
+        mosaic:
+            mosaic0:
+                width:  1280
+                height: 720
+                pos_x:  0
+                pos_y:  0

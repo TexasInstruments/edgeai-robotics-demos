@@ -1,0 +1,27 @@
+<launch>
+
+    <!-- Input source -->
+    <arg name = "rate" default = "20.0" />
+    <arg name = "twist_topic"  default = "cmd_vel" />
+
+    <!-- Default log level -->
+    <arg name = "log_level"   default = "ERROR" />
+
+    <!-- ti_vision_cnn -->
+    <node pkg = "gamepad_controller"
+          type = "gamepad_controller.py"
+          name = "gamepad_controller"
+          output = "screen" >
+
+        <!-- Log level -->
+        <param name= "log_level" value = "$(arg log_level)" />
+
+        <!-- Output image topic name to publish -->
+        <param name= "rate" value = "$(arg rate)" />
+
+        <!-- Output semantic segmentation tensor topic name to publish to -->
+        <param name = "twist_topic" value = "$(arg twist_topic)" />
+
+    </node>
+
+</launch>

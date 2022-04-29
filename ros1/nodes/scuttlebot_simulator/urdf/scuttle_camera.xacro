@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<robot name="scuttle" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:arg name="camera_link" default="0.02" />
+<xacro:arg name="height3" default="1" />
+<xacro:arg name="axel_offset" default="0.05" /> 
+<xacro:arg name="image_width" default="1280" />
+<xacro:arg name="image_height" default="720" />
+<xacro:arg name="camera_name" default="scuttle/camera1" />
+
+<xacro:property name="camera_link" value="$(arg camera_link)" /> 
+<xacro:property name="height3" value="$(arg height3)" />
+<xacro:property name="axel_offset" value="$(arg axel_offset)" /> 
+
+<xacro:include filename="$(find scuttle_description)/urdf/scuttle.xacro" />
+<xacro:include filename="$(find scuttlebot_simulator)/urdf/scuttle_camera.gazebo" />
+
+<!-- Camera -->
+<link name="camera_link">
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="${camera_link} ${camera_link} ${camera_link}"/>
+    </geometry>
+  </collision>
+
+  <visual> 
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="${camera_link} ${camera_link} ${camera_link}"/>
+    </geometry>
+    <material name="red"/>
+  </visual>
+
+  <inertial>
+    <mass value="1e-5" />
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+  </inertial>
+</link>
+
+<!-- generate an optical frame http://www.ros.org/reps/rep-0103.html#suffix-frames
+    so that ros and opencv can operate on the camera frame correctly -->
+<joint name="camera_optical_joint" type="fixed">
+  <!-- these values have to be these values otherwise the gazebo camera image
+      won't be aligned properly with the frame it is supposedly originating from -->
+  <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+  <parent link="camera_link"/>
+  <child link="camera_link_optical"/>
+</joint>
+
+<link name="camera_link_optical">
+</link>
+<joint name="camera_joint" type="fixed">
+  <axis xyz="0 1 0" />
+  <origin xyz="${camera_link} 0 ${height3 - axel_offset*2}" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="camera_link"/>
+</joint>
+</robot>

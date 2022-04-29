@@ -1,0 +1,224 @@
+<?xml version="1.0" ?>
+<robot name="scuttle" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find scuttle_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find scuttle_description)/urdf/scuttle.trans" />
+<xacro:include filename="$(find scuttle_description)/urdf/scuttle.gazebo" />
+
+<link name="base_link">
+  <inertial>
+    <origin rpy="0 0 0" xyz="2.12433370053547e-05 -0.07877992189559235 0.07392564365565002"/>
+    <mass value="3.288323846275119"/>
+    <inertia ixx="0.038876" ixy="1.3e-05" ixz="1e-06" iyy="0.047513" iyz="0.000486" izz="0.084083"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 1.570796" xyz="0 0 0"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 1.570796" xyz="0 0 0"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/base_link_collision_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_wheel_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="-0.020325481156161784 -9.763736334427187e-09 4.516951403188418e-09"/>
+    <mass value="0.5928646271111422"/>
+    <inertia ixx="0.000334" ixy="0.0" ixz="-0.0" iyy="0.000332" iyz="-0.0" izz="0.000332"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="-0.21235 -0.0 -0.04175"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/l_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="blue"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="-0.21235 -0.0 -0.04175"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/l_wheel_collision_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_wheel_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="0.020325563043213257 1.3954236146756306e-08 2.0353343177514915e-09"/>
+    <mass value="0.592867092340216"/>
+    <inertia ixx="0.000334" ixy="0.0" ixz="0.0" iyy="0.000332" iyz="-0.0" izz="0.000332"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="0.21215 0.0 -0.04175"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/r_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="blue"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="0.21215 0.0 -0.04175"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/r_wheel_collision_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="lidar_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="-0.0010241190327231165 -0.0008953477993804172 0.009594767416774092"/>
+    <mass value="0.07327266108520486"/>
+    <inertia ixx="2.5e-05" ixy="1e-06" ixz="0.0" iyy="2.5e-05" iyz="0.0" izz="4.4e-05"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="-0.0 0.0275 -0.1096"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/lidar_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="gray"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="-0.0 0.0275 -0.1096"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/lidar_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_caster_swivel_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="-0.0002554502352885568 0.010633952722858359 -0.012968467515129908"/>
+    <mass value="0.02074189648802402"/>
+    <inertia ixx="7e-06" ixy="0.0" ixz="0.0" iyy="8e-06" iyz="1e-06" izz="9e-06"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="0.119279 0.254415 -0.059282"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/r_caster_swivel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="0.119279 0.254415 -0.059282"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/r_caster_swivel_collision_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_caster_swivel_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="-0.00025520971284771765 0.010633952722903461 -0.012968467515129777"/>
+    <mass value="0.02074189648802399"/>
+    <inertia ixx="7e-06" ixy="0.0" ixz="0.0" iyy="8e-06" iyz="1e-06" izz="9e-06"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="-0.119015 0.254415 -0.059282"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/l_caster_swivel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="-0.119015 0.254415 -0.059282"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/l_caster_swivel_collision_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_caster_wheel_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="0.0160002016389222 -1.6368916427866864e-07 -7.02880924990934e-08"/>
+    <mass value="0.03841110590847018"/>
+    <inertia ixx="1.2e-05" ixy="0.0" ixz="-0.0" iyy="7e-06" iyz="0.0" izz="7e-06"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="-0.101223 0.230415 -0.025282"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/l_caster_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="blue"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="-0.101223 0.230415 -0.025282"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/l_caster_wheel_collision_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_caster_wheel_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="-0.016000038883518655 -1.6368920854881175e-07 -7.028809271419911e-08"/>
+    <mass value="0.03841110590847031"/>
+    <inertia ixx="1.2e-05" ixy="-0.0" ixz="0.0" iyy="7e-06" iyz="0.0" izz="7e-06"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="0.105071 0.230415 -0.025282"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/r_caster_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="blue"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="0.105071 0.230415 -0.025282"/>
+    <geometry>
+      <mesh filename="package://scuttle_description/meshes/r_caster_wheel_collision_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="l_wheel_joint" type="continuous">
+  <origin rpy="0 0 1.570796" xyz="0.0 0.21235 0.04175"/>
+  <parent link="base_link"/>
+  <child link="l_wheel_1"/>
+  <axis xyz="1.0 -0.0 0.0"/>
+</joint>
+
+<joint name="r_wheel_joint" type="continuous">
+  <origin rpy="0 0 1.570796" xyz="0.0 -0.21215 0.04175"/>
+  <parent link="base_link"/>
+  <child link="r_wheel_1"/>
+  <axis xyz="1.0 0.0 -0.0"/>
+</joint>
+
+<joint name="lidar" type="fixed">
+  <origin rpy="0 0 0" xyz="0.2 0.0 0.29"/>
+  <parent link="base_link"/>
+  <child link="lidar_1"/>
+</joint>
+
+<joint name="r_caster_swivel_joint" type="continuous">
+  <origin rpy="0 0 1.570796" xyz="0.254415 0.119279 0.059282"/>
+  <parent link="base_link"/>
+  <child link="r_caster_swivel_1"/>
+  <axis xyz="0.0 0.0 1.0"/>
+</joint>
+
+<joint name="l_caster_swivel_joint" type="continuous">
+  <origin rpy="0 0 1.570796" xyz="0.254415 -0.119015 0.059282"/>
+  <parent link="base_link"/>
+  <child link="l_caster_swivel_1"/>
+  <axis xyz="0.0 -0.0 1.0"/>
+</joint>
+
+<joint name="r_caster_wheel_joint" type="continuous">
+  <origin rpy="0 0 0" xyz="-0.017792 0.024 -0.034"/>
+  <parent link="l_caster_swivel_1"/>
+  <child link="l_caster_wheel_1"/>
+  <axis xyz="1.0 0.0 -0.0"/>
+</joint>
+
+<joint name="l_caster_wheel_joint" type="continuous">
+  <origin rpy="0 0 0" xyz="0.014208 0.024 -0.034"/>
+  <parent link="r_caster_swivel_1"/>
+  <child link="r_caster_wheel_1"/>
+  <axis xyz="-1.0 -0.0 0.0"/>
+</joint>
+
+</robot>

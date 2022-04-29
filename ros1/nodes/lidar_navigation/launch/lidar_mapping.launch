@@ -1,0 +1,19 @@
+<launch>
+  <!-- scuttle_bringup -->
+  <arg name="gui" default="false" />
+  <arg name="robot_config" default="/opt/robot/edgeai-robotics-demos/python/common/scuttlepy/config/scuttle_sk_config.yaml"/>
+
+  <param name ="/use_sim_time" value="false"/>
+  <param name="use_gui" value="$(arg gui)"/>
+  <param name="enable_tf_publish" value="true"/>
+  <param name="enable_joint_state_publish" value="true"/>
+  <param name="robot_description" command="cat $(find scuttle_description)/urdf/scuttle.xacro" />
+  <node name="scuttle_driver" pkg="scuttle_driver" type="scuttle_driver.py" output="screen">
+      <param name = "robot_config" value = "$(arg robot_config)"/>
+  </node>
+
+  <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+
+  <!-- game_controller -->  
+  <include file="$(find gamepad_controller)/launch/gamepad_controller.launch" /> -->
+</launch>

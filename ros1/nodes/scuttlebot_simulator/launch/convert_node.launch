@@ -1,0 +1,15 @@
+<launch>
+    
+    <arg name="subscribe_topic"/> <!-- Input RGB topic-->
+    <arg name="publish_topic"/> <!-- Name to output topic-->
+    <arg name="convert_to"/> <!--[uyvy or nv12 or rgb_raw] Convert to>-->
+    <arg name="input_type"/> <!-- [compressed or raw] Input RGB Frame type-->
+
+    <node pkg = "scuttlebot_simulator" type = "convert" name = "convert" output = "screen" args="" required="true">
+        <param name="subscribe_image_topic"    value="$(arg subscribe_topic)"/> 
+        <param name="publish_image_topic"  value="$(arg publish_topic)"/>
+        <param name="convert"  value="$(arg convert_to)"/>
+        <param name="type"  value="$(arg input_type)"/>
+    </node>
+
+</launch>
