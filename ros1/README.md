@@ -37,7 +37,7 @@ Once the robotics SDK docker container is setup on PC, follow the instructions b
 
 ```shell
 user@pc:~/j7ros_home$ cd ros_ws/src
-user@pc:~/j7ros_home/ros_ws/src$ git clone git@github.com:TexasInstruments/edgeai-robotics-demos.git
+user@pc:~/j7ros_home/ros_ws/src$ git clone https://github.com/TexasInstruments/edgeai-robotics-demos.git
 user@pc:~/j7ros_home/ros_ws/src$ git clone -b noetic https://github.com/scuttlerobot/SCUTTLE_ROS/ scuttle_ws
 ```
 
