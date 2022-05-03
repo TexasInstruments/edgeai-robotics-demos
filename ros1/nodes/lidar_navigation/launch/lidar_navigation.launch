@@ -2,7 +2,6 @@
 
   
   <!-- Transformation Configuration ... Setting Up the Relationships Between Coordinate Frames --> 
-  <node pkg="tf" type="static_transform_publisher" name="base_scan_to_lidar" args="0 0 0 0 0 0 lidar_1 base_scan 30" /> 
   <node pkg="tf" type="static_transform_publisher" name="base_foot_to_imu" args="0.1 0 0.1 0 0 0 base_footprint imu 30" />
   <node pkg="tf" type="static_transform_publisher" name="base_foot_to_base_link" args="0 0 0 0 0 0 base_footprint base_link 30" />
 

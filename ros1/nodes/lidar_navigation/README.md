@@ -74,7 +74,7 @@ In addition, a ROS driver for the BNO055 IMU sensor is required to calibrate and
 
 While the navigation stack is running on the SK board, it subscribes the 2D pose estimate topic and the 2D navigation goal topic to get the robot's initial pose and the navigation goal, which are published from the remote Ubuntu PC using RViz. Therefore, two machines should be time synchronized.
 
-When the remote Ubuntu PC and the SK board are connected to internet, they can be synchrnoized to each other automatically. Otherwise, we use `chrony` to synchronized them by the following steps. In the example below, it is assumed that `192.163.43.20` and `192.163.43.1` are the IP addresses of the Ubuntu PC and the SK board, respectively. 
+When the remote Ubuntu PC and the SK board are connected to internet, they can be synchrnoized to each other automatically. Otherwise, we use `chrony` to synchronized them by the following steps. In the example below, it is assumed that `192.163.43.20` and `192.163.43.1` are the IP addresses of the Ubuntu PC and the SK board, respectively. They should be replaced by the actual PC and J7 IP adresses.
 
 #### Ubuntu PC 
 
@@ -101,7 +101,7 @@ driftfile /var/lib/chrony/chrony.drift
 logdir /var/log/chrony
  
 # For local server setting
-# Note that SK IP ADDR is 192.168.43.1.
+# SK IP ADDR is 192.168.43.1.
 # It should be updated depending on SK board IP ADDR
 local stratum 8
 manual
@@ -166,6 +166,7 @@ Then we have to start `chrony` and sync with the Ubuntu PC. These processes can 
 
 ``` shell
 root@tda4vm-sk:/opt/robot/edgeai-robotics-demos/docker# ./run.sh
+root@j7-docker:~/j7ros_home/ros_ws$ export PC_IP_ADDR=192.168.43.20
 root@j7-docker:~/j7ros_home/ros_ws$ /opt/robot/edgeai-robotics-demos/scripts/timesync.sh
 ```
 
