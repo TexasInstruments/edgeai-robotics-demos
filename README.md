@@ -106,9 +106,9 @@ either cutting the power to the motors or power cycling the SK board.
 
 Documentation on the SCUTTLE robot can be found at the following link:
 
-* [SCUTTLE ROBOT DOCUMENTATION](https://github.com/scuttlerobot/SCUTTLE)
+* [SCUTTLE ROBOT DOCUMENTATION](https://scuttlerobot.org/resources)
 
-Familiarize yourself with ``SCUTTLE WiringGuidePi.pdf`` content since the wiring on the robot with the
+Familiarize yourself with ``SCUTTLE WiringGuide.pdf`` content since the wiring on the robot with the
 SK board is identical to the one that uses Raspberry Pi board.
 
 Documentation on the scuttlepy library can be found at the following link:
