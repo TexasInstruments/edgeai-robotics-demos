@@ -38,6 +38,7 @@ sending commands.
 
 """
 
+from common.robot_if import *
 from common.scuttle_drive import *
 
 __all__ = ['get_robot_control_instance',
@@ -66,7 +67,7 @@ def get_robot_control_instance(config):
     global _instance_count
 
     if _robot == None:
-        _robot = ScuttleDrive(config)
+        _robot = ScuttleDrive(config, queue_time_out=RobotIf.IN_QUEUE_TIMEOUT)
 
     _instance_count = _instance_count + 1
     return _robot

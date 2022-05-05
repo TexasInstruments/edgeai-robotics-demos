@@ -114,7 +114,7 @@ class RobotIf:
         # Process input commands
         while self._stop_thread == False:
             try:
-                cmd = self.inputQ.get(block=True, timeout=RobotIf.IN_QUEUE_TIMEOUT)
+                cmd = self.inputQ.get(block=True, timeout=self._queue_time_out)
                 self.inputQ.task_done()
             except queue.Empty:
                 # Timeout condition

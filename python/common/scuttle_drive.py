@@ -46,7 +46,7 @@ class ScuttleDrive(RobotIf):
 
     """
 
-    def __init__(self, config, queue_time_out=RobotIf.IN_QUEUE_TIMEOUT):
+    def __init__(self, config, queue_time_out):
         """
         Args:
             config: str, optional
