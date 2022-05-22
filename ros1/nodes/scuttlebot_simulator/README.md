@@ -57,10 +57,6 @@ user@pc:~/j7ros_home/ros_ws/src/edgeai-robotics-demos/docker$ ./run_pc.sh
 
 ### Downloading aws-robomaker environments
 
-[aws-robomaker-hospital-world](https://github.com/aws-robotics/aws-robomaker-hospital-world)
-
-[aws-robomaker-warehouse-world](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world)
-
 ``` shell
 user@pc-docker:~/j7ros_home/ros_ws$ cd src
 user@pc-docker:~/j7ros_home/ros_ws/src$ mkdir -p custom_worlds/src
@@ -72,7 +68,13 @@ user@pc-docker:~/j7ros_home/ros_ws/src/custom_worlds/src/aws-robomaker-hospital-
 user@pc-docker:~/j7ros_home/ros_ws/src/custom_worlds/src/aws-robomaker-hospital-world$ ./setup.sh
 ```
 
-This will download aws-robomaker-hospital-world and other dependencies and models.You can follow the same process for aws-warehouse-world.
+This will download aws-robomaker-hospital-world and other dependencies and models.You can follow the same process for other aws-worlds
+
+* [Hospital World](https://github.com/aws-robotics/aws-robomaker-hospital-world)
+* [Warehouse World](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world)
+* [House World](https://github.com/aws-robotics/aws-robomaker-small-house-world)
+* [Bookstore World](https://github.com/aws-robotics/aws-robomaker-bookstore-world)
+
 
 ### Building packages
 
@@ -87,6 +89,8 @@ user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ source devel/setup.bash
 
 ## Running Gazebo simulator with scuttlebot and convert node
 
+
+<u><h3> Launching Simulator and publishing RGB image to ros topic </h3></u>
 Using this launch file, start the gazebo simulator with scuttlebot and convert node that converts scuttlebot camera frames to uyvy or nv12 format.
 
 ``` shell
@@ -104,13 +108,24 @@ Following arguments can be given by the user to control various parameters.
 | subscribe_topic | Input RGB rostopic to convert node | scuttle/camera1/image_raw |
 | publish_topic | Output rostopic from convert node | camera/image_raw |
 | convert_to | uyvy or nv12 or rgb | nv12 |
-| input_type | compressed or raw | raw|
+| input_type | compressed or raw | raw |
+| world | Aws World (hospital / warehouse / house / bookstore) | hospital |
 
 Example Usage:
 
 ``` shell
-user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ roslaunch scuttlebot_simulator scuttlebot_gazebo.launch image_width:=800 image_height:=800 convert_to:=uyvy
+user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ roslaunch scuttlebot_simulator scuttlebot_gazebo.launch image_width:=800 image_height:=800 convert_to:=uyvy world:=warehouse
 ```
+
+<u><h3>Driving Scuttlebot using Teleop Keyboard</h3></u>
+<b>Open another terminal</b> and launch the dokcer container. Launch teleop_keyboard and drive around scuttlebot using wasd keys. The teleop_keyboard published Twist message to /cmd_vel according to user input.
+
+``` shell
+user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ source devel/setup.bash
+user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ roslaunch scuttlebot_simulator teleop_keyboard.launch
+```
+
+
 
 
 ## Setting up J7 SK Board

@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   image_transport
   roscpp
+  rospy
   sensor_msgs
 )
 find_package(OpenCV REQUIRED)
@@ -195,6 +196,11 @@ set(APP_CONVERT_SRCS
 
 # Build nodes
 build_node(convert APP_CONVERT_SRCS)
+
+catkin_install_python(PROGRAMS
+                      src/teleop_keyboard.py
+                      DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+                      )
 
 
 ## Mark libraries for installation
