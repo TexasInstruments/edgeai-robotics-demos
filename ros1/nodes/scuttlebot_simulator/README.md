@@ -66,6 +66,7 @@ user@pc-docker:~/j7ros_home/ros_ws/src/custom_worlds/src$ cd aws-robomaker-hospi
 user@pc-docker:~/j7ros_home/ros_ws/src/custom_worlds/src/aws-robomaker-hospital-world$ rosdep install --from-paths . --ignore-src -r -y
 user@pc-docker:~/j7ros_home/ros_ws/src/custom_worlds/src/aws-robomaker-hospital-world$ chmod +x setup.sh
 user@pc-docker:~/j7ros_home/ros_ws/src/custom_worlds/src/aws-robomaker-hospital-world$ ./setup.sh
+user@pc-docker:~/j7ros_home/ros_ws/src/custom_worlds/src/aws-robomaker-hospital-world$ cd ~/j7ros_home/ros_ws
 ```
 
 This will download aws-robomaker-hospital-world and other dependencies and models.You can follow the same process for other aws-worlds
@@ -121,6 +122,8 @@ user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ roslaunch scuttlebot_simulator sc
 <b>Open another terminal</b> and launch the dokcer container. Launch teleop_keyboard and drive around scuttlebot using wasd keys. The teleop_keyboard published Twist message to /cmd_vel according to user input.
 
 ``` shell
+user@pc:~/j7ros_home/ros_ws$ sudo src/edgeai-robotics-demos/docker/run_pc.sh
+user@pc-docker:~/j7ros_home/ros_ws$ cd ros1_build
 user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ source devel/setup.bash
 user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ roslaunch scuttlebot_simulator teleop_keyboard.launch
 ```
