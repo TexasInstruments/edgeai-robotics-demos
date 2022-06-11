@@ -32,7 +32,7 @@ The following setup is necessary for this demo:
 
 **[J7 SK BOARD]**
 
-The Docker environment should be set up beforehand based on [Robotics SDK User Guide](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_01_00/docs/source/docker/README.html#setting-up-robotics-kit-environment). It is also expected that the pre-requisites have been installed as described in [edgeai-robotics-demos](../../../README.md) and the SCUTTLE_ROS package has been cloned as described in [Running the demos under Robotics SDK Docker based ROS environment](../../../ros1/README.md).
+The Docker environment should be set up beforehand based on [Robotics SDK User Guide](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_02_00/docs/source/docker/README.html#setting-up-robotics-kit-environment). It is also expected that the pre-requisites have been installed as described in [edgeai-robotics-demos](../../../README.md) and the SCUTTLE_ROS package has been cloned as described in [Running the demos under Robotics SDK Docker based ROS environment](../../../ros1/README.md).
  
 First start a Docker container and compile SCUTTLE_ROS in `/opt/robot`.
 
@@ -58,7 +58,7 @@ We move the SCUTTLE robot using the game controller around the area we like to b
 
 **[Ubuntu PC]**
 
-It is expected that the Robotics SDK and the Docker environment have been set up on Ubuntu PC based on [Robotics SDK User Guide](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_01_00/docs/source/docker/README.html#setting-up-robotics-kit-environment). 
+It is expected that the Robotics SDK and the Docker environment have been set up on Ubuntu PC based on [Robotics SDK User Guide](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_02_00/docs/source/docker/README.html#setting-up-robotics-kit-environment). 
 
 Launch the Docker container, and clone the Hector SLAM git repository and apply a patch. 
 
