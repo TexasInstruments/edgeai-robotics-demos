@@ -49,8 +49,7 @@ Please follow the instructions for [setting up docker container on UBUNTU PC](..
 
 ### Starting docker container
 ``` shell
-user@pc:$ cd ~/j7ros_home/ros_ws/src/edgeai-robotics-demos/docker
-user@pc:~/j7ros_home/ros_ws/src/edgeai-robotics-demos/docker$ ./run_pc.sh
+user@pc:~/j7ros_home/ros_ws$ src/edgeai-robotics-demos/docker/run_pc.sh
 ```
 
 ### Downloading aws-robomaker environments
@@ -117,16 +116,25 @@ user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ roslaunch scuttlebot_simulator sc
 ```
 
 <u><h3>Driving Scuttlebot using Teleop Keyboard</h3></u>
-<b>Open another terminal and launch the docker container as done previously using run_pc.sh command</b>. Launch teleop_keyboard and drive around scuttlebot using WASD keys. The teleop_keyboard published Twist message to /cmd_vel according to user input.
+<b>Open another terminal and link it to the same docker container running above</b>. To do this we first need the ID of the running docker container with Image pc-ros-noetic_scuttle:8.2
 
-``` shell
-user@pc:~/j7ros_home/ros_ws$ sudo src/edgeai-robotics-demos/docker/run_pc.sh
+In a new terminal:
+```shell
+user@pc:~/j7ros_home/ros_ws$ sudo docker ps
+```
+
+After noting the <b>Container ID/b> , execute the following command to launch a session connected to same container  
+```shell
+user@pc-docker:~/j7ros_home/ros_ws$ sudo docker exec -it <your_container_id> bash
+```
+
+This links the terminal to the same docker container. Now, launch teleop_keyboard and drive around scuttlebot using WASD keys. The teleop_keyboard published Twist message to /cmd_vel according to user input.
+
+```shell
 user@pc-docker:~/j7ros_home/ros_ws$ cd ros1_build
 user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ source devel/setup.bash
 user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ roslaunch scuttlebot_simulator teleop_keyboard.launch
 ```
-
-
 
 
 ## Setting up J7 SK Board
@@ -145,10 +153,14 @@ image_format:=2 -> UYVY
 
 
 ## [Visualization on Ubuntu PC]
+To visualize the output, we need yet another session running on the same docker container. Follow the same steps mentioned under Driving Scuttlebot using Teleop Keyboard to open a new terminal and link it to docker container.
+```shell
+user@pc-docker:~/j7ros_home/ros_ws$ sudo docker exec -it <your_container_id> bash
+```    
+     
 Use ti_viz_nodes under robotics_sdk to vizualize the output. [Robotics SDK](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_02_00/docs/source/ros1/nodes/ti_vision_cnn/README_objdet.html).
 
 ```shell
-user@pc:~/j7ros_home/ros_ws$ sudo src/edgeai-robotics-demos/docker/run_pc.sh
 user@pc-docker:~/j7ros_home/ros_ws$ source devel/setup.bash
 user@pc-docker:~/j7ros_home/ros_ws$ roslaunch ti_viz_nodes rviz_objdet_cnn.launch
 ```
