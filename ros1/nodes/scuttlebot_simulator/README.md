@@ -125,7 +125,7 @@ user@pc:~/j7ros_home/ros_ws$ sudo docker ps
 
 After noting the <b>Container ID</b> , execute the following command to launch a session connected to same container  
 ```shell
-user@pc-docker:~/j7ros_home/ros_ws$ sudo docker exec -it <your_container_id> bash
+user@pc:~/j7ros_home/ros_ws$ sudo docker exec -it <your_container_id> bash
 ```
 
 This links the terminal to the same docker container. Now, launch teleop_keyboard and drive around scuttlebot using WASD keys. The teleop_keyboard published Twist message to /cmd_vel according to user input.
@@ -155,7 +155,7 @@ image_format:=2 -> UYVY
 ## [Visualization on Ubuntu PC]
 To visualize the output, we need yet another session running on the same docker container. Follow the same steps mentioned under Driving Scuttlebot using Teleop Keyboard to open a new terminal and link it to docker container.
 ```shell
-user@pc-docker:~/j7ros_home/ros_ws$ sudo docker exec -it <your_container_id> bash
+user@pc:~/j7ros_home/ros_ws$ sudo docker exec -it <your_container_id> bash
 ```    
      
 Use ti_viz_nodes under robotics_sdk to vizualize the output. [Robotics SDK](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_02_00/docs/source/ros1/nodes/ti_vision_cnn/README_objdet.html).
