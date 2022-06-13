@@ -123,7 +123,7 @@ In a new terminal:
 user@pc:~/j7ros_home/ros_ws$ sudo docker ps
 ```
 
-After noting the <b>Container ID/b> , execute the following command to launch a session connected to same container  
+After noting the <b>Container ID</b> , execute the following command to launch a session connected to same container  
 ```shell
 user@pc-docker:~/j7ros_home/ros_ws$ sudo docker exec -it <your_container_id> bash
 ```
