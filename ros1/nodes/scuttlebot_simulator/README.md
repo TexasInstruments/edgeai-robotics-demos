@@ -2,9 +2,7 @@
 
 This sections covers the details on running scuttlebot simulator on gazebo and offloading camera frames to J7 SK Board for running Object detection and Semantic Segmentation.
 
-**Note: Assuming the ROS, Gazebo, Turtlebot teleop and Scuttlebot is setup on Ubuntu PC**
-
-## Backgorund
+## Background
 
 Before getting started, we must have some information on how this demo works. Once the scuttlebot is running on gazebo, it publishes RGB frames to a rostopic (In this case "scuttle/camera1/image_raw"). The frames are published in raw and in jpeg compressed format. The convert_node.cpp is a rosnode which converts rgb frames to either uyvy or nv12 (configurable) and republishes the converted frame. This is the input to ti_vision_cnn node on J7 SK Board running Object detection/Semantic segmantation. The result can be vizualized on Ubuntu PC using rviz launch files provided in scuttlebot_simulator package.
 
@@ -47,7 +45,7 @@ Following are the arguments that can be provided to the launch files.
 
 ## Setting up UBUNTU PC
 
-Please follow the instructions for [setting up docker cuntainer on UBUNTU PC](../../README.md).
+Please follow the instructions for [setting up docker container on UBUNTU PC](../../README.md).
 
 ### Starting docker container
 ``` shell
@@ -119,7 +117,7 @@ user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ roslaunch scuttlebot_simulator sc
 ```
 
 <u><h3>Driving Scuttlebot using Teleop Keyboard</h3></u>
-<b>Open another terminal</b> and launch the dokcer container. Launch teleop_keyboard and drive around scuttlebot using wasd keys. The teleop_keyboard published Twist message to /cmd_vel according to user input.
+<b>Open another terminal and launch the docker container as done previously using run_pc.sh command</b>. Launch teleop_keyboard and drive around scuttlebot using WASD keys. The teleop_keyboard published Twist message to /cmd_vel according to user input.
 
 ``` shell
 user@pc:~/j7ros_home/ros_ws$ sudo src/edgeai-robotics-demos/docker/run_pc.sh
@@ -150,6 +148,7 @@ image_format:=2 -> UYVY
 Use ti_viz_nodes under robotics_sdk to vizualize the output. [Robotics SDK](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_02_00/docs/source/ros1/nodes/ti_vision_cnn/README_objdet.html).
 
 ```shell
+user@pc:~/j7ros_home/ros_ws$ sudo src/edgeai-robotics-demos/docker/run_pc.sh
 user@pc-docker:~/j7ros_home/ros_ws$ source devel/setup.bash
 user@pc-docker:~/j7ros_home/ros_ws$ roslaunch ti_viz_nodes rviz_objdet_cnn.launch
 ```
