@@ -116,16 +116,18 @@ user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ roslaunch scuttlebot_simulator sc
 ```
 
 <u><h3>Driving Scuttlebot using Teleop Keyboard</h3></u>
-<b>Open another terminal and link it to the same docker container running above</b>. To do this we first need the ID of the running docker container with Image pc-ros-noetic_scuttle:8.2
+<b>Open another terminal and link it to the same docker container running above</b>. To do this we first need the ID of the running docker container and some environment variables.
 
-In a new terminal:
+In a new terminal execute the following and note the Container ID of image pc-ros-noetic_scuttle:8.2:
 ```shell
 user@pc:~/j7ros_home/ros_ws$ sudo docker ps
 ```
 
-After noting the <b>Container ID</b> , execute the following command to launch a session connected to same container  
+To get the ip address of J7 Board, use command <b>ip addr</b> on the board. To get ip address of this Ubuntu PC, use command <b>ip_addr</b> 
+
+After noting the <b>Container ID</b> and <b>IP Addresses</b> , execute the following command to launch a session connected to same container  
 ```shell
-user@pc:~/j7ros_home/ros_ws$ sudo docker exec -it <your_container_id> bash
+user@pc:~/j7ros_home/ros_ws$ sudo docker exec -e ROS_MASTER_URI=http://<J7_IP_ADDR>:11311 -e ROS_IP=<PC_IP_ADDR> -it <CONTAINER_ID> bash
 ```
 
 This links the terminal to the same docker container. Now, launch teleop_keyboard and drive around scuttlebot using WASD keys. The teleop_keyboard published Twist message to /cmd_vel according to user input.
@@ -155,7 +157,7 @@ image_format:=2 -> UYVY
 ## [Visualization on Ubuntu PC]
 To visualize the output, we need yet another session running on the same docker container. Follow the same steps mentioned under Driving Scuttlebot using Teleop Keyboard to open a new terminal and link it to docker container.
 ```shell
-user@pc:~/j7ros_home/ros_ws$ sudo docker exec -it <your_container_id> bash
+user@pc:~/j7ros_home/ros_ws$ sudo docker exec -e ROS_MASTER_URI=http://<J7_IP_ADDR>:11311 -e ROS_IP=<PC_IP_ADDR> -it <CONTAINER_ID> bash
 ```    
      
 Use ti_viz_nodes under robotics_sdk to vizualize the output. [Robotics SDK](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_02_00/docs/source/ros1/nodes/ti_vision_cnn/README_objdet.html).
