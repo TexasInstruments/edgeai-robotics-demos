@@ -123,7 +123,18 @@ In a new terminal execute the following and note the Container ID of image pc-ro
 user@pc:~/j7ros_home/ros_ws$ sudo docker ps
 ```
 
-To get the ip address of J7 Board, use command <b>ip addr</b> on the board. To get ip address of this Ubuntu PC, use command <b>ip_addr</b> 
+To get the ip address of J7 Board and Ubuntu PC, use command <b>ip addr</b> on respective devices
+```shell
+root@j7:~$ ip addr
+```
+```shell
+user@pc:~$ ip addr
+```
+
+<p align="center">
+    <img src="../../../docs/images/ip_addr.PNG" width="300">
+</p>
+
 
 After noting the <b>Container ID</b> and <b>IP Addresses</b> , execute the following command to launch a session connected to same container  
 ```shell
