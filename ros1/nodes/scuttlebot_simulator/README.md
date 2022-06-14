@@ -82,7 +82,21 @@ user@pc-docker:~/j7ros_home/ros_ws$ mkdir -p ros1_build && cd ros1_build
 user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ catkin_make --source ~/j7ros_home/ros_ws/src/edgeai-robotics-demos/ros1
 user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ catkin_make --source ~/j7ros_home/ros_ws/src/scuttle_ws
 user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ catkin_make --source ~/j7ros_home/ros_ws/src/custom_worlds
-user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ source devel/setup.bash
+```
+
+## Setting up ROS Variables in Ubuntu PC
+We need to setup ROS_MASTER_URI and ROS_IP. For this we need the ip adress of the PC. Use command <b>ip addr</b> to note the ip address.
+``` shell
+user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ ip addr
+```
+<p align="center">
+    <img src="../../../docs/images/ip_addr.PNG" width="300">
+</p>
+
+Now we can set the variables. <b>This needs to be done everytime we start a new session or new docker container</b>
+``` shell
+user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ export ROS_MASTER_URI=http://<PC_IP_ADDR>:11311
+user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ export ROS_IP=<PC_IP_ADDR>
 ```
 
 ## Running Gazebo simulator with scuttlebot and convert node
@@ -116,32 +130,19 @@ user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ roslaunch scuttlebot_simulator sc
 ```
 
 <u><h3>Driving Scuttlebot using Teleop Keyboard</h3></u>
-<b>Open another terminal and link it to the same docker container running above</b>. To do this we first need the ID of the running docker container and some environment variables.
+<b>Open another terminal and link it to the same docker container running above</b>. To do this we first need the ID of the running docker container.
 
 In a new terminal execute the following and note the Container ID of image pc-ros-noetic_scuttle:8.2:
 ```shell
 user@pc:~/j7ros_home/ros_ws$ sudo docker ps
 ```
-
-To get the ip address of J7 Board and Ubuntu PC, use command <b>ip addr</b> on respective devices
+After noting the <b>Container ID</b>, execute the following command to launch a session connected to same container.  
 ```shell
-root@j7:~$ ip addr
+user@pc:~/j7ros_home/ros_ws$ sudo docker exec -it <CONTAINER_ID> bash
+user@pc-docker:~/j7ros_home/ros_ws$ export ROS_MASTER_URI=http://<PC_IP_ADDR>:11311
+user@pc-docker:~/j7ros_home/ros_ws$ export ROS_IP=<PC_IP_ADDR>
 ```
-```shell
-user@pc:~$ ip addr
-```
-
-<p align="center">
-    <img src="../../../docs/images/ip_addr.PNG" width="300">
-</p>
-
-
-After noting the <b>Container ID</b> and <b>IP Addresses</b> , execute the following command to launch a session connected to same container  
-```shell
-user@pc:~/j7ros_home/ros_ws$ sudo docker exec -e ROS_MASTER_URI=http://<J7_IP_ADDR>:11311 -e ROS_IP=<PC_IP_ADDR> -it <CONTAINER_ID> bash
-```
-
-This links the terminal to the same docker container. Now, launch teleop_keyboard and drive around scuttlebot using WASD keys. The teleop_keyboard published Twist message to /cmd_vel according to user input.
+This links the terminal to the same docker container and sets up ROS variables. Now, launch teleop_keyboard and drive around scuttlebot using WASD keys. The teleop_keyboard published Twist message to /cmd_vel according to user input.
 
 ```shell
 user@pc-docker:~/j7ros_home/ros_ws$ cd ros1_build
@@ -153,6 +154,12 @@ user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ roslaunch scuttlebot_simulator te
 ## Setting up J7 SK Board
 
 Please follow the instructions in [this section in the User Guide Documentation](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_02_00/docs/source/docker/README.html#setting-up-robotics-kit-environment) for setting up the environment to work with ROS1 on J7 SK board.
+
+Since our Ubuntu PC runs the <b>roscore</b> we need to specify the ROS_MASTER_URI in the SK Board. Previously, we have already noted the ip adress of Ubuntu PC
+
+```shell
+root@j7-docker:~/j7ros_home/ros_ws$ export ROS_MASTER_URI=http://<PC_IP_ADDR>:11311
+```
 
 Run the ti_vision_cnn node for Object detection or Semantic Segmentation.
 
@@ -168,7 +175,9 @@ image_format:=2 -> UYVY
 ## [Visualization on Ubuntu PC]
 To visualize the output, we need yet another session running on the same docker container. Follow the same steps mentioned under Driving Scuttlebot using Teleop Keyboard to open a new terminal and link it to docker container.
 ```shell
-user@pc:~/j7ros_home/ros_ws$ sudo docker exec -e ROS_MASTER_URI=http://<J7_IP_ADDR>:11311 -e ROS_IP=<PC_IP_ADDR> -it <CONTAINER_ID> bash
+user@pc:~/j7ros_home/ros_ws$ sudo docker exec -it <CONTAINER_ID> bash
+user@pc-docker:~/j7ros_home/ros_ws$ export ROS_MASTER_URI=http://<PC_IP_ADDR>:11311
+user@pc-docker:~/j7ros_home/ros_ws$ export ROS_IP=<PC_IP_ADDR>
 ```    
      
 Use ti_viz_nodes under robotics_sdk to vizualize the output. [Robotics SDK](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_02_00/docs/source/ros1/nodes/ti_vision_cnn/README_objdet.html).
