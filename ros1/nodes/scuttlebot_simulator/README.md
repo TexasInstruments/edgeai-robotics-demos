@@ -60,6 +60,7 @@ user@pc-docker:~/j7ros_home/ros_ws/src$ mkdir -p custom_worlds/src
 user@pc-docker:~/j7ros_home/ros_ws/src$ cd custom_worlds/src
 user@pc-docker:~/j7ros_home/ros_ws/src/custom_worlds/src$ git clone https://github.com/aws-robotics/aws-robomaker-hospital-world.git
 user@pc-docker:~/j7ros_home/ros_ws/src/custom_worlds/src$ cd aws-robomaker-hospital-world
+user@pc-docker:~/j7ros_home/ros_ws/src/custom_worlds/src$ sudo apt-get update
 user@pc-docker:~/j7ros_home/ros_ws/src/custom_worlds/src/aws-robomaker-hospital-world$ rosdep install --from-paths . --ignore-src -r -y
 user@pc-docker:~/j7ros_home/ros_ws/src/custom_worlds/src/aws-robomaker-hospital-world$ chmod +x setup.sh
 user@pc-docker:~/j7ros_home/ros_ws/src/custom_worlds/src/aws-robomaker-hospital-world$ ./setup.sh
