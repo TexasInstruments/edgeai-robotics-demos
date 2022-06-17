@@ -254,8 +254,8 @@ namespace ros_app_convert
                 const uint8_t* imgRowPtr_1 = img.ptr<uint8_t>(ih+1);
                 uint8_t* yuvRowPtr_0 = yuv.ptr<uint8_t>(ih);
                 uint8_t* yuvRowPtr_1 = yuv.ptr<uint8_t>(ih+1);
-                int uv_row = counter+img.rows-1;
-
+		
+                int uv_row = counter+img.rows;
                 uint8_t* yuvRowPtrUV = yuv.ptr<uint8_t>(uv_row);
                 counter++;
 
@@ -311,7 +311,8 @@ namespace ros_app_convert
 
          void convertYV122NV12(const cv::Mat& yv12, cv::Mat& nv12)
         {
-
+	    int width = yv12.cols;
+	    int height = yv12.rows*2/3;
             int stride = (int)yv12.step[0];
             yv12.copyTo(nv12);
             cv::Mat V = cv::Mat(cv::Size(width/2,height/2),CV_8UC1,(unsigned char*)yv12.data+stride*height,stride/2);
