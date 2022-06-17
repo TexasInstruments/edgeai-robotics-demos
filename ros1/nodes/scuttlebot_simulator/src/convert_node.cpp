@@ -28,7 +28,7 @@ using namespace std;
 
 namespace ros_app_convert
 {
-    /**c
+    /**
      * @brief  Convert ROS warpper class
      */
 
@@ -76,7 +76,6 @@ namespace ros_app_convert
 
             else if (convert=="nv12")
             {
-                yuv_image = cv::Mat::zeros(cv::Size(width,height*1.5),CV_8UC1);
                 if (type=="compressed")
                 {
                     m_imgSub = nh->subscribe<sensor_msgs::CompressedImage>(subImgTopic,1, &Convert::callback_compressed_nv12, this);
@@ -99,7 +98,7 @@ namespace ros_app_convert
         void callback_compressed_rgb2rgb_raw(const sensor_msgs::CompressedImageConstPtr& image_ptr)
         {
             image = cv::imdecode(cv::Mat(image_ptr->data),1);
-	        cv::cvtColor(image,image,COLOR_BGR2RGB);
+	    cv::cvtColor(image,image,COLOR_BGR2RGB);
             width = image.cols;
             height = image.rows;
             rgb2rgb_raw(image);
@@ -170,7 +169,7 @@ namespace ros_app_convert
             {
                 header.stamp = ros::Time::now();
                 out_msg = cv_bridge::CvImage(header,"rgb8",image).toImageMsg();
-		        m_imgPub.publish(out_msg);
+		m_imgPub.publish(out_msg);
             }
             catch (cv_bridge::Exception& e)
             {
@@ -182,10 +181,10 @@ namespace ros_app_convert
         {
             try
             {
-		        convertRGB2UYVY(image,yuv_image);
+		convertRGB2UYVY(image,yuv_image);
                 header.stamp = ros::Time::now();
-                out_msg = cv_bridge::CvImage(header,"8UC2",yuv_image).toImageMsg();
-		        m_imgPub.publish(out_msg);
+                out_msg = cv_bridge::CvImage(header,"yuv422",yuv_image).toImageMsg();
+		m_imgPub.publish(out_msg);
             }
             catch (cv_bridge::Exception& e)
             {
@@ -198,11 +197,11 @@ namespace ros_app_convert
         {
             try
             {
-		        //convertYV122NV12(image,yuv_image);
+		//convertYV122NV12(image,yuv_image);
                 convertRGB2NV12(image,yuv_image);
-		        header.stamp = ros::Time::now();
-                out_msg = cv_bridge::CvImage(header,"8UC1",yuv_image).toImageMsg();
-		        m_imgPub.publish(out_msg);
+		header.stamp = ros::Time::now();
+                out_msg = cv_bridge::CvImage(header,"yuv420",yuv_image).toImageMsg();
+		m_imgPub.publish(out_msg);
             }
             catch (cv_bridge::Exception& e)
             {
@@ -255,8 +254,8 @@ namespace ros_app_convert
                 const uint8_t* imgRowPtr_1 = img.ptr<uint8_t>(ih+1);
                 uint8_t* yuvRowPtr_0 = yuv.ptr<uint8_t>(ih);
                 uint8_t* yuvRowPtr_1 = yuv.ptr<uint8_t>(ih+1);
-                int uv_row = counter+img.rows-1;
-
+		
+                int uv_row = counter+img.rows;
                 uint8_t* yuvRowPtrUV = yuv.ptr<uint8_t>(uv_row);
                 counter++;
 
@@ -312,7 +311,8 @@ namespace ros_app_convert
 
          void convertYV122NV12(const cv::Mat& yv12, cv::Mat& nv12)
         {
-
+	    int width = yv12.cols;
+	    int height = yv12.rows*2/3;
             int stride = (int)yv12.step[0];
             yv12.copyTo(nv12);
             cv::Mat V = cv::Mat(cv::Size(width/2,height/2),CV_8UC1,(unsigned char*)yv12.data+stride*height,stride/2);

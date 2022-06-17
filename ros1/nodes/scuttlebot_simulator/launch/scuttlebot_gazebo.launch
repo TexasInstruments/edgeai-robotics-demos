@@ -34,16 +34,33 @@
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
     
-    <!-- Launch World-->
-    <!--Hospital World-->
-    <include file="$(find aws_robomaker_hospital_world)/launch/hospital.launch">
-        <arg name="gui" value="true"/>
-    </include>
+    <!--Launch World-->
 
-    <!--Warehouse World
-    <include file="$(find aws_robomaker_small_warehouse_world)/launch/small_warehouse.launch">
-        <arg name="gui" value="true"/>
-    </include>
-    -->
+    <arg name="world" default="hospital" /> <!--Select World-->
+
+    <group if="$(eval world == 'hospital')">
+        <include file="$(find aws_robomaker_hospital_world)/launch/hospital.launch">
+            <arg name="gui" value="true"/>
+        </include>
+    </group>
+
+    <group if="$(eval world == 'warehouse')">
+        <include file="$(find aws_robomaker_small_warehouse_world)/launch/small_warehouse.launch">
+            <arg name="gui" value="true"/>
+        </include>
+    </group>
+
+    <group if="$(eval world == 'house')">
+        <include file="$(find aws_robomaker_small_house_world)/launch/small_house.launch">
+            <arg name="gui" value="true"/>
+        </include>
+    </group>
+
+    <group if="$(eval world == 'bookstore')">
+        <include file="$(find aws_robomaker_bookstore_world)/launch/bookstore.launch">
+            <arg name="gui" value="true"/>
+        </include>
+    </group>
+
 
 </launch>
