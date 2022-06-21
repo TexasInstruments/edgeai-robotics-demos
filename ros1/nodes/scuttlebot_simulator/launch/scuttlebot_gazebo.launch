@@ -22,6 +22,12 @@
     <arg name="convert_to" default="nv12" /> <!-- uvyy or nv12 or rgb-->
     <arg name="input_type" default="raw" /> <!-- compressed or raw -->
 
+    <arg name="spawn_ball" default="true" />
+    <arg name="ball_x" default="$(eval 3.5+arg('x_pos'))" />
+    <arg name="ball_y" default="$(arg y_pos)" />
+    <arg name="ball_radius" default="0.25" />
+    <arg name="ball_z" default="$(arg ball_radius)" />
+
     <include file="$(find scuttlebot_simulator)/launch/convert_node.launch">
         <arg name="subscribe_topic" value="$(arg subscribe_topic)"/>
         <arg name="publish_topic" value="$(arg publish_topic)" />
@@ -33,7 +39,10 @@
     <node args="-param robot_description -urdf -model scuttle -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R 0.0 -P 0.0 -Y 0.0" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"/>
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
-    
+
+    <param command="$(find xacro)/xacro $(find scuttlebot_simulator)/urdf/basketball.xacro ball_radius:=$(arg ball_radius)" name="ball_desc" />	
+    <node args="-param ball_desc -urdf -x $(arg ball_x) -y $(arg ball_y) -z $(arg ball_z) -model basketball" name="spawn_ball" pkg="gazebo_ros" type="spawn_model" if="$(eval arg('spawn_ball'))"/>
+          
     <!--Launch World-->
 
     <arg name="world" default="hospital" /> <!--Select World-->
