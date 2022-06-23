@@ -29,7 +29,7 @@
     <arg name="ball_radius" default="0.25" />
     <arg name="ball_z" default="$(arg ball_radius)" />
 
-    <group if="$(arg convert_color)"/>
+    <group if="$(arg convert_color)">
         <include file="$(find scuttlebot_simulator)/launch/convert_node.launch">
             <arg name="subscribe_topic" value="$(arg subscribe_topic)"/>
             <arg name="publish_topic" value="$(arg publish_topic)" />
