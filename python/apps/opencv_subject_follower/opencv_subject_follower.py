@@ -44,15 +44,24 @@ from common.command_line_parse import get_cmdline_args
 from common.subject_follower import SubjectFollower
 from common.gamepad_motor_control import *
 from common.robot_drive import *
+from common.ros_wrapper import Ros
 
 # A function to capture an image & return all pixel data
-def newImage(camera, size):
+def newImage(camera, size, ros):
+    
     ret, image = camera.read()          # return the image as well as ret
     if not ret:                         # (ret is a boolean for returned successfully?)
-        print("NO IMAGE")
         return None                     # (return an empty var if the image could not be captured)
 
     # Resize the image to reduce processing overhead
+    if (ros and camera.is_compressed == False):
+        if (camera.format == 0):
+            image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
+        elif (camera.format == 1):
+            image = cv2.cvtColor(image,cv2.COLOR_YUV2BGR_NV12)
+        elif (camera.format == 2):
+            image = cv2.cvtColor(image,cv2.COLOR_YUV2BGR_UYVY) 
+            
     image = cv2.resize(image, size, interpolation=cv2.INTER_LINEAR)
     return image
 
@@ -93,7 +102,7 @@ def colorTarget(image, color_range): # function defaults to open range if no ran
         targ = [x, y, radius]
 
     # return x, y, radius, of target
-    return targ
+    return targ,thresh
 
 class Follower:
     """
@@ -121,22 +130,32 @@ class Follower:
         center_threshold = config['center_threshold']
         hsv_min          = config['hsv_min']
         hsv_max          = config['hsv_max']
+        source           = config['source']
 
-        camera = cv2.VideoCapture(config['source'])
-
-        if camera.isOpened() == False:
-            self.logger.error("Error opening camera.")
-            sys.exit(1)
-
-        camera.set(cv2.CAP_PROP_FPS, fps)
-        fps_read = camera.get(cv2.CAP_PROP_FPS)
-
-        if fps_read != fps:
-            self.logger.error("Failed to ser fps to {}".format(fps))
-            camera.release()
-            sys.exit(1)
+        if (source == 'ros'):
+            topic = config['input_topic']
+            format = config['format']
+            is_compressed = config['is_compressed']
+            camera = Ros(topic,format,is_compressed)
+            self.ros = True
+        
         else:
-            self.logger.info("FPS: {}".format(fps))
+            camera = cv2.VideoCapture(config['source'])
+            self.ros = False
+
+            if camera.isOpened() == False:
+                self.logger.error("Error opening camera.")
+                sys.exit(1)
+
+            camera.set(cv2.CAP_PROP_FPS, fps)
+            fps_read = camera.get(cv2.CAP_PROP_FPS)
+
+            if fps_read != fps:
+                self.logger.error("Failed to ser fps to {}".format(fps))
+                camera.release()
+                sys.exit(1)
+            else:
+                self.logger.info("FPS: {}".format(fps))
 
         self.fps         = fps
         self.camera      = camera
@@ -168,25 +187,27 @@ class Follower:
     def _proc_thread(self):
         try:
             while (self._stop_thread == False) and self.camera.isOpened():
-                image = newImage(self.camera, self.size)
+                image = newImage(self.camera, self.size, self.ros)
 
                 if image is None:
+                    if self.ros: 
+                        continue
                     raise Exception("Image capture failed.\n")
-                    
-                # Locate a target
-                target = colorTarget(image, self.color_range)
+        
+                target,thresh = colorTarget(image, self.color_range)
                 if target != None:
                     x, y, radius = target
                     chassisTargets = self.follower.getChassisTargets(x, y, radius)
                     self.logger.info("X = {0:.2f} Y = {1:.2f} R:{2:.2f} T:{3}".\
                                      format(x, y, radius, chassisTargets))
                 else:
-                    radius = 0;
+                    radius = 0
                     chassisTargets = [0.0, -0.5]
 
-                self.cb((image, radius, chassisTargets))
+                self.cb((thresh, radius, chassisTargets))
 
                 time.sleep(1.0/self.fps)
+
         except KeyboardInterrupt:
             if self.camera.isOpened():
                 self.camera.release()
@@ -195,12 +216,17 @@ class Follower:
         if self.thread == None:
             self.thread = threading.Thread(target=self._proc_thread)
             self.thread.start()
+        
+        if self.ros:
+            self.camera.start()
 
     def wait_for_exit(self):
         self.thread.join()
-
-        # Release the instance of the robot control object
         release_robot_control_instance()
+
+        if self.ros:
+            self.camera.stop()
+        
         self.thread = None
 
     def stop(self):

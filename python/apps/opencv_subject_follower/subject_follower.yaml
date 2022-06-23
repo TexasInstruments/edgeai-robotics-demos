@@ -4,9 +4,6 @@ title: "OpenCV Based Subject Tracking Demo"
 # SCUTTLE configuration
 robot_config: '/opt/robot/edgeai-robotics-demos/python/common/scuttlepy/config/scuttle_sk_config.yaml'
 
-# Input source
-source: /dev/video2
-
 # Input framerate
 framerate: 15
 
@@ -26,5 +23,5 @@ target_radius: 100
 center_threshold: 50
 
 # HSV values to narrow down objects of interest
-hsv_min: [0, 140, 50]
-hsv_max: [20, 220, 230]
+hsv_min: [10, 140, 50]
+hsv_max: [25, 250, 230]

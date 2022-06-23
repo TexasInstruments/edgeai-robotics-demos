@@ -69,7 +69,7 @@ class RosFollowerNode:
 
 params = ['output_topic', 'twist_topic', 'log_level', 'title', 'robot_config', 'source',
           'framerate', 'input_width', 'input_height', 'min_radius', 'target_radius',
-          'center_threshold', 'hsv_min', 'hsv_max']
+          'center_threshold', 'hsv_min', 'hsv_max', 'input_topic' , 'format', 'is_compressed']
 
 if __name__ == "__main__":
     global followerNode
