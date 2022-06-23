@@ -138,6 +138,7 @@ class Follower:
             is_compressed = config['is_compressed']
             camera = Ros(topic,format,is_compressed)
             self.ros = True
+            SubjectFollower.maxLinVel = 0.22
         
         else:
             camera = cv2.VideoCapture(config['source'])
