@@ -183,7 +183,7 @@ namespace ros_app_convert
             {
 		convertRGB2UYVY(image,yuv_image);
                 header.stamp = ros::Time::now();
-                out_msg = cv_bridge::CvImage(header,"yuv422",yuv_image).toImageMsg();
+                out_msg = cv_bridge::CvImage(header,"8UC2",yuv_image).toImageMsg();
 		m_imgPub.publish(out_msg);
             }
             catch (cv_bridge::Exception& e)
@@ -200,7 +200,7 @@ namespace ros_app_convert
 		//convertYV122NV12(image,yuv_image);
                 convertRGB2NV12(image,yuv_image);
 		header.stamp = ros::Time::now();
-                out_msg = cv_bridge::CvImage(header,"yuv420",yuv_image).toImageMsg();
+                out_msg = cv_bridge::CvImage(header,"8UC1",yuv_image).toImageMsg();
 		m_imgPub.publish(out_msg);
             }
             catch (cv_bridge::Exception& e)

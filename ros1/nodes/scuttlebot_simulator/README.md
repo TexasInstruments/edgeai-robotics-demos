@@ -16,7 +16,7 @@ Before getting started, we must have some information on how this demo works. On
 
 ## Details for convert_node
 
-The convert node can convert rgb raw or jpeg compressed frames to uyvy/nv12/rgb frames.
+The convert node can convert rgb raw or jpeg compressed frames to uyvy/nv12/rgb frames. <b> The convert_color parameter in roslaunch file decides whether this node runs or not. By default it is true. </b>
 
 | From | To  |
 | :---:   | :-: |
@@ -114,14 +114,15 @@ user@pc-docker:~/j7ros_home/ros_ws/ros1_build$ roslaunch scuttlebot_simulator sc
 Following arguments can be given by the user to control various parameters.
 | Args | Details | Default |
 | :---:   | :-: | :-: |
-| camera_height | Height of camera relative to scuttlebot | 1 |
-| camera_name | Name given to camera | scuttle/camera1 |
+| convert_color | If color conversion node is needed | true |
+| subscribe_topic | Input RGB rostopic to convert node | $(camera_name)/image_raw |
+| publish_topic | Output rostopic from convert node | camera/image_raw |
+| convert_to | Convert to which colorspace [uyvy or nv12 or rgb] | nv12 |
+| input_type | What is the input image type [compressed or raw] | raw |
 | image_width | Width of image captured from scuttlebot camera | 1280 |
 | image_height | Height of the image | 720 |
-| subscribe_topic | Input RGB rostopic to convert node | scuttle/camera1/image_raw |
-| publish_topic | Output rostopic from convert node | camera/image_raw |
-| convert_to | uyvy or nv12 or rgb | nv12 |
-| input_type | compressed or raw | raw |
+| camera_height | Height of camera relative to scuttlebot | 1 |
+| camera_name | Name given to camera | scuttle/camera1 |
 | world | Aws World (hospital / warehouse / house / bookstore) | hospital |
 
 Example Usage:

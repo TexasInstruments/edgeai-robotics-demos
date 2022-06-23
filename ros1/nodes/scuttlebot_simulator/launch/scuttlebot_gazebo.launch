@@ -17,7 +17,7 @@
     <arg name="camera_name" default="scuttle/camera1" /> <!-- Camera Name -->
     
     <!-- Convert Node Args-->
-    <arg name="convert_color" default="true" />
+    <arg name="convert_color" default="true" /> <!--Is color conversion needed-->
     <arg name="subscribe_topic" default="$(arg camera_name)/image_raw"/> <!-- Image topic published by scuttlebot and subscribed by convert node-->
     <arg name="publish_topic" default="camera/image_raw" /> <!-- Publish topic name after conversion -->
     <arg name="convert_to" default="nv12" /> <!-- uvyy or nv12 or rgb-->
