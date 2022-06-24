@@ -71,8 +71,7 @@ params = ['output_topic', 'twist_topic', 'log_level', 'title', 'robot_config', '
           'framerate', 'input_width', 'input_height', 'min_radius', 'target_radius',
           'center_threshold', 'hsv_min', 'hsv_max']
 
-optional_params = ['ros_input_topic' , 'ros_format', 'ros_is_compressed']
-
+optional_params = ['ros_input_topic' , 'format', 'max_lin_vel', 'max_ang_vel']
 
 if __name__ == "__main__":
     global followerNode

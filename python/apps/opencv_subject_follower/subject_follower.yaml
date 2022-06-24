@@ -7,14 +7,11 @@ robot_config: '/opt/robot/edgeai-robotics-demos/python/common/scuttlepy/config/s
 #Input Source
 source: ros
 
-#[OPTIONAL] Ros Input Topic if source is ros
+#[CONDITIONAL] Ros Input Topic if source is ros
 ros_input_topic: /scuttle/camera1/image_raw/compressed
 
-#[OPTIONAL] Ros Image Format if source is ros [0:RGB, 1:NV12, 2:UYVY]
-ros_format: 0
-
-#[OPTIONAL] true if subscribing to CompressedImage topic. Else false.
-ros_is_compressed: true
+#[CONDITIONAL] Ros Image Format if source is ros [RGB,NV12,UYVY,JPEG]
+format: JPEG
 
 # Input framerate
 framerate: 15
@@ -37,3 +34,9 @@ center_threshold: 50
 # HSV values to narrow down objects of interest
 hsv_min: [10, 140, 50]
 hsv_max: [25, 250, 230]
+
+#[OPTIONAL] max linear velocity of robot [Default=0.4]
+max_lin_vel: 0.2
+
+#[OPTIONAL] max angular velocity of robot [Default=2]
+max_ang_vel: 2

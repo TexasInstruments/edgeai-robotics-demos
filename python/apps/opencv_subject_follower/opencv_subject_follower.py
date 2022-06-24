@@ -55,11 +55,11 @@ def newImage(camera, size, ros):
 
     # Resize the image to reduce processing overhead
     if (ros and camera.is_compressed == False):
-        if (camera.format == 0):
+        if (camera.format == "RGB"):
             image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
-        elif (camera.format == 1):
+        elif (camera.format == "NV12"):
             image = cv2.cvtColor(image,cv2.COLOR_YUV2BGR_NV12)
-        elif (camera.format == 2):
+        elif (camera.format == "UYVY"):
             image = cv2.cvtColor(image,cv2.COLOR_YUV2BGR_UYVY) 
             
     image = cv2.resize(image, size, interpolation=cv2.INTER_LINEAR)
@@ -132,26 +132,22 @@ class Follower:
         hsv_max          = config['hsv_max']
         source           = config['source']
 
-        if (source == 'ros'):
-            
-            if ('ros_input_topic' in config):
-                topic = config['ros_input_topic']
-            else:
-                topic = "/scuttle/camera1/image_raw/compressed" #DEFAULT ROS TOPIC NAME
+        if ('max_lin_vel' in config):
+            SubjectFollower.maxLinVel = config['max_lin_vel']
+        if ('max_ang_vel' in config):
+            SubjectFollower.maxLinVel = config['max_ang_vel']
 
-            if ('ros_format' in config):
-                format = config['ros_format']
+        if (source == 'ros'):
+            topic = config['ros_input_topic']
+            format = config['format'].strip().upper()
+            if (format == "JPEG"):
+                is_compressed = True
             else:
-                format = 0 #Default Format
-            
-            if ('ros_is_compressed' in config):
-                is_compressed = config['ros_is_compressed']
-            else:
-                is_compressed = True # Default Value
+                is_compressed = False 
 
             camera = Ros(topic,format,is_compressed)
+            camera.make_subscriber()
             self.ros = True
-            SubjectFollower.maxLinVel = 0.22
         
         else:
             camera = cv2.VideoCapture(config['source'])
@@ -231,8 +227,8 @@ class Follower:
             self.thread = threading.Thread(target=self._proc_thread)
             self.thread.start()
         
-        if self.ros:
-            self.camera.start()
+        #if self.ros:
+        #    self.camera.start()
 
     def wait_for_exit(self):
         self.thread.join()

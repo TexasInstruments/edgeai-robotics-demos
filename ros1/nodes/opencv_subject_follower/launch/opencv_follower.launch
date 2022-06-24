@@ -6,7 +6,7 @@
 
     <!-- Default log level -->
     <arg name = "log_level"   default = "ERROR" />
-
+    
     <!-- Default robot configuration -->
     <arg name = "robot_config" default = "/opt/robot/edgeai-robotics-demos/python/common/scuttlepy/config/scuttle_sk_config.yaml" />
 
