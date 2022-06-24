@@ -2,6 +2,8 @@
 title: "EdgeAI Based Subject Tracking Demo"
 
 inputs:
+
+    #Camera Input
     input0:
         source: /dev/video2   
         format: jpeg
@@ -9,6 +11,7 @@ inputs:
         height: 720
         framerate: 15
     
+    #Ros Input
     input1:
         source: ros   
         format: JPEG #[Allowed: RGB,UYVY,NV12,JPEG]
@@ -33,9 +36,9 @@ outputs:
 
 flows:
     flow0:
-        input: input1
+        input: input0       #Change this for another input
         models: [model0]
-        outputs: [output1]
+        outputs: [output0]
         mosaic:
             mosaic0:
                 width:  1280

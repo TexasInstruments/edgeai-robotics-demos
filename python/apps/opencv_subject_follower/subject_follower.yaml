@@ -4,8 +4,8 @@ title: "OpenCV Based Subject Tracking Demo"
 # SCUTTLE configuration
 robot_config: '/opt/robot/edgeai-robotics-demos/python/common/scuttlepy/config/scuttle_sk_config.yaml'
 
-#Input Source
-source: ros
+#Input Source [Change to ros if required]
+source: /dev/video2 
 
 #[CONDITIONAL] Ros Input Topic if source is ros
 ros_input_topic: /scuttle/camera1/image_raw/compressed
