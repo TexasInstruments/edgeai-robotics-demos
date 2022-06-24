@@ -24,8 +24,8 @@
     <arg name="input_type" default="raw" /> <!-- compressed or raw -->
 
     <arg name="spawn_ball" default="true" />
-    <arg name="ball_x" default="$(eval 2.8+arg('x_pos'))" />
-    <arg name="ball_y" default="$(arg y_pos)" />
+    <arg name="ball_x" default="$(eval 2.3+arg('x_pos'))" />
+    <arg name="ball_y" default="$(eval 0.5+arg('y_pos'))" />
     <arg name="ball_radius" default="0.25" />
     <arg name="ball_z" default="$(arg ball_radius)" />
 
