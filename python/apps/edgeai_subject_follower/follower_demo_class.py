@@ -38,6 +38,7 @@ import sys
 import config_parser
 import gst_wrapper
 from follower_infer_pipe import InferPipe
+from common.ros_wrapper import Ros
 
 class FollowerDemo:
     """
@@ -57,8 +58,11 @@ class FollowerDemo:
         self.outputs = {}
         self.flows = []
         self.infer_pipes = []
+        self.ros = {}
         self.title = config['title']
         for f in config['flows']:
+            is_ros = False
+
             flow = config['flows'][f]
 
             input = flow['input']
@@ -66,7 +70,21 @@ class FollowerDemo:
                 print("[ERROR] Same input can not be used for multiple flows")
                 sys.exit()
             input_config = config['inputs'][input]
+            
+            if (input_config['source'] == 'ros'):
+                #Get Gst String for v4l2src and replace the source with appsrc
+                input_config['source'] = '/dev/video2'
+                is_ros = True
+                
             input_obj = config_parser.Input(input_config)
+
+            if (is_ros):                
+                #Get Gst String for v4l2src and replace the source with appsrc
+                topic = input_config['ros_input_topic']
+                input_obj.source = 'ros'
+                input_obj.gst_str = get_ros_src_cmd(input_obj.id,input_obj.width,input_obj.height,input_obj.fps,input_obj.format)
+                self.ros['ros_source'+str(input_obj.id)] = Ros(topic,input_obj.format,(input_obj.format.strip().upper() == "JPEG"))
+
             self.inputs[input] = input_obj
 
             models = flow['models']
@@ -98,6 +116,8 @@ class FollowerDemo:
                                                                   self.outputs)
         self.gst_pipe = gst_wrapper.GstPipe(self.src_strs, self.sink_str)
 
+        print(self.src_strs)
+
         for o in self.outputs.values():
             o.gst_pipe = self.gst_pipe
 
@@ -110,15 +130,24 @@ class FollowerDemo:
         """
         Member function to start the demo
         """
+
         self.gst_pipe.start()
         for i in self.infer_pipes:
             i.start()
 
+        for index,input in enumerate(self.inputs.values()): 
+            if input.source != "ros":
+                continue
+            
+            id = "ros_source"+str(index)
+            gst_src = self.gst_pipe.src_pipe[index].get_by_name(id)
+            self.ros[id].make_subscriber(push_to_gst=True, gst_src=gst_src)
+
     def stop(self):
+        
         # Issue stop commands to the inference pipes
         for i in self.infer_pipes:
             i.stop()
-
         # Wait for the inference pipes to exit
         self.wait_for_exit()
 
@@ -129,4 +158,31 @@ class FollowerDemo:
         """
         for i in self.infer_pipes:
             i.wait_for_exit()
+
         self.gst_pipe.free()
+        
+
+def get_ros_src_cmd(id,width,height,fps,format):
+        
+    source_cmd = 'appsrc name=ros_source%s is-live=true emit-signals=true ! ' % str(id)
+    is_jpeg = False
+
+    format = format.strip().upper()
+
+    if (format == "JPEG"):
+        format = "RGB"
+        is_jpeg = True
+            
+    if (not is_jpeg):
+        source_cmd += 'video/x-raw, format=%s, width=%d, height=%d, framerate=%d/1 ! ' %(format,width,height,fps) #for raw
+    else:
+        source_cmd += 'image/jpeg, format=%s, width=%d, height=%d, framerate=%d/1 ! ' %(format,width,height,fps)
+        source_cmd += 'jpegdec ! '
+    
+    if format != "NV12":
+        if format == "RGB":
+            source_cmd += 'tiovxdlcolorconvert ! video/x-raw, format=NV12 ! '
+        else:
+            source_cmd += 'tiovxcolorconvert ! video/x-raw, format=NV12 ! '
+
+    return source_cmd

@@ -74,6 +74,11 @@ class CallbackObj:
         self.logger = create_logger(name='edgeai_subject_follower',
                                     level=log_level)
 
+        if ('max_lin_vel' in config):
+            SubjectFollower.maxLinVel = config['max_lin_vel']
+        if ('max_ang_vel' in config):
+            SubjectFollower.maxLinVel = config['max_ang_vel']
+
         try:
             self.follower = SubjectFollower(input_width=self.input_width,
                                           input_height=self.input_height,
@@ -170,9 +175,9 @@ def main(sys_argv):
         demoObj.start()
 
         demoObj.wait_for_exit()
-    except KeyboardInterrupt:
+    except rospy.ROSInterruptException:
         pass
-    finally:
+    except KeyboardInterrupt:
         pass
 
     if demoObj:

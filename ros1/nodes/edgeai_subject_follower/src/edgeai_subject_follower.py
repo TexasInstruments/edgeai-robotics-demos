@@ -35,6 +35,11 @@ class CallbackObj:
         # Create a logger object
         self.logger = create_logger(name='edgeai_subject_follower',
                                     level=log_level)
+        
+        if ('max_lin_vel' in config):
+            SubjectFollower.maxLinVel = config['max_lin_vel']
+        if ('max_ang_vel' in config):
+            SubjectFollower.maxAngVel = config['max_ang_vel']
 
         self.follower = SubjectFollower(input_width=self.input_width,
                                         input_height=self.input_height,
@@ -95,6 +100,9 @@ params = ['input_width', 'input_height', 'output_topic', 'twist_topic', 'log_lev
           'robot_config', 'prob_threshold', 'min_radius', 'target_radius',
           'center_threshold', 'target_class', 'process_config']
 
+optional_params = ['max_lin_vel', 'max_ang_vel']
+
+
 if __name__ == "__main__":
     config = {}
     try:
@@ -103,6 +111,10 @@ if __name__ == "__main__":
         # Read configuration parameters
         for t in params:
             config[t] = rospy.get_param('~'+t)
+        
+        for t in optional_params:
+            if rospy.has_param('~'+t):
+                config[t] = rospy.get_param('~'+t)
 
         # Get the parameters for setting up the demo object
         with open(config['process_config'], 'r') as f:

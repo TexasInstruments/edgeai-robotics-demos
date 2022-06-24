@@ -7,6 +7,12 @@ robot_config: '/opt/robot/edgeai-robotics-demos/python/common/scuttlepy/config/s
 # The input image width
 input_width: 1280
 
+#[OPTIONAL] max linear velocity of robot [Default=0.4]
+max_lin_vel: 0.2
+
+#[OPTIONAL] max angular velocity of robot [Default=2]
+max_ang_vel: 2
+
 # The input image height
 input_height: 720
 
@@ -24,4 +30,6 @@ target_class: "sports"
 
 # Minimum probability for considering objects for tracking
 prob_threshold: 0.1
+
+
 
