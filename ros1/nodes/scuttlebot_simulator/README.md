@@ -193,6 +193,12 @@ user@pc-docker:~/j7ros_home/ros_ws$ roslaunch ti_viz_nodes rviz_objdet_cnn.launc
   <img src="../../../docs/gifs/scuttle_gazebo_demo.gif" />
 </p>
 
+
+## Running other edgeai-robotics-demos on scuttlebot_simulator.
+
+There are many other demos in edgeai-robotics-demos, to run them on the simulator environment follow this [link](README2.md)
+
+
 ## Documentation
 
 Documentation on the SCUTTLE ROS library can be found at the following link:

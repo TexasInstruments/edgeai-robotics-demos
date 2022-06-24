@@ -113,6 +113,7 @@ root@j7-docker:~/j7ros_home/ros_ws/ros1_build$ source devel/setup.bash
 root@j7-docker:~/j7ros_home/ros_ws/ros1_build$ roslaunch edgeai_subject_follower edgeai_follower.launch
 ```
 
+
 **[Visualization on Ubuntu PC]** Run the following commands from within the ROS1 docker for visualizing the output.
 
 ```shell
@@ -145,6 +146,9 @@ root@pc-docker:~/j7ros_home/ros_ws$ rviz -d /root/j7ros_home/ros_ws/src/edgeai-r
 
 The details of this demo could be found under [scuttlebot_simulator package](./nodes/scuttlebot_simulator/README.md).
 
+## Running Opencv and EdgeAI follower demo on simulator environment
+
+To run the demo on simulator environment follow this [link](./nodes/scuttlebot_simulator/README2.md).
 
 ## Documentation
 
