@@ -133,9 +133,22 @@ class Follower:
         source           = config['source']
 
         if (source == 'ros'):
-            topic = config['input_topic']
-            format = config['format']
-            is_compressed = config['is_compressed']
+            
+            if ('ros_input_topic' in config):
+                topic = config['ros_input_topic']
+            else:
+                topic = "/scuttle/camera1/image_raw/compressed" #DEFAULT ROS TOPIC NAME
+
+            if ('ros_format' in config):
+                format = config['ros_format']
+            else:
+                format = 0 #Default Format
+            
+            if ('ros_is_compressed' in config):
+                is_compressed = config['ros_is_compressed']
+            else:
+                is_compressed = True # Default Value
+
             camera = Ros(topic,format,is_compressed)
             self.ros = True
             SubjectFollower.maxLinVel = 0.22

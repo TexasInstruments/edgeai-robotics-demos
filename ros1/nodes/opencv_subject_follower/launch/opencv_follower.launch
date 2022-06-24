@@ -1,13 +1,5 @@
 <launch>
 
-    <!-- Input source -->
-    <arg name = "source" default = "/dev/video2" />
-
-    <!-- Params if Source is ROS-->
-    <arg name = "input_topic"   default = "/scuttle/camera1/image_raw/compressed" />
-    <arg name = "format"   default = "0" />
-    <arg name = "is_compressed"   default = "true" />
-
     <!--Publish Topics-->
     <arg name = "output_topic" default = "out_image" />
     <arg name = "twist_topic"  default = "cmd_vel" />
@@ -27,9 +19,6 @@
         <!-- Operational parameters -->
         <rosparam file="/opt/robot/edgeai-robotics-demos/python/apps/opencv_subject_follower/subject_follower.yaml" />
 
-        <!-- Input Source-->
-        <param name= "source" value = "$(arg source)" />
-
         <!-- Log level -->
         <param name= "log_level" value = "$(arg log_level)" />
 
@@ -38,15 +27,6 @@
 
         <!-- Output semantic segmentation tensor topic name to publish to -->
         <param name = "twist_topic" value = "$(arg twist_topic)" />
-
-        <!-- Input topic is source is ros -->
-        <param name= "input_topic" value = "$(arg input_topic)" />
-
-        <!-- Format if source is ros -->
-        <param name= "format" value = "$(arg format)" />
-
-        <!-- is the image compressed if source is ros -->
-        <param name = "is_compressed" value = "$(arg is_compressed)" />
 
     </node>
 

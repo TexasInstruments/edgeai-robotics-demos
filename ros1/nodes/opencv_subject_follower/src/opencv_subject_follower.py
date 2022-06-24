@@ -69,7 +69,10 @@ class RosFollowerNode:
 
 params = ['output_topic', 'twist_topic', 'log_level', 'title', 'robot_config', 'source',
           'framerate', 'input_width', 'input_height', 'min_radius', 'target_radius',
-          'center_threshold', 'hsv_min', 'hsv_max', 'input_topic' , 'format', 'is_compressed']
+          'center_threshold', 'hsv_min', 'hsv_max']
+
+optional_params = ['ros_input_topic' , 'ros_format', 'ros_is_compressed']
+
 
 if __name__ == "__main__":
     global followerNode
@@ -84,6 +87,10 @@ if __name__ == "__main__":
         # Read configuration parameters
         for t in params:
             config[t] = rospy.get_param('~'+t)
+        
+        for t in optional_params:
+            if rospy.has_param('~'+t):
+                config[t] = rospy.get_param('~'+t)
 
         # Create a logger object
         logger = create_logger(name='opencv_subject_follower', level=config['log_level'])
