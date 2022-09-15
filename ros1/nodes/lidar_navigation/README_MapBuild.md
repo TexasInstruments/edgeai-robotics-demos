@@ -54,7 +54,13 @@ root@j7-docker:~/j7ros_home/ros_ws$ source devel/setup.bash
 root@j7-docker:~/j7ros_home/ros_ws$ roslaunch lidar_navigation lidar_mapping.launch
 ```
 
-We move the SCUTTLE robot using the game controller around the area we like to build a map. Before that, we need to launch Hector SLAM on Ubuntu PC.
+We move the SCUTTLE robot using the game controller around the area we like to build a map. Before that, we need to launch Hector SLAM on Ubuntu PC as descricried below in [Ununtu PC](#ubuntu_pc). <a name="j7_sk"> After building the map, we can save the map using map_server. </a>
+
+```shell
+root@j7-docker:~/j7ros_home/ros_ws$ rosrun map_server map_saver -f map_name
+```
+
+It saves the map into the pgm image format along with a YAML file. In order to launch the Lidar navigation with the newely created map, both pgm and yaml file should be copied to the location speicified by `map_file` in lidar_navigation.launch.
 
 **[Ubuntu PC]**
 
@@ -68,21 +74,20 @@ root@pc-docker:~/j7ros_home/ros_ws$ export SLAM_ROOT=$HOME/j7ros_home/ros_ws/src
 root@pc-docker:~/j7ros_home/ros_ws$ $SLAM_ROOT/j7_setup_hector_slam.sh
 ```
 
+<a name="ubuntu_pc">
 Then, compile and launch the Hector SLAM by the following commands.
+</a>
 
 ``` shell
 root@pc-docker:~/j7ros_home/ros_ws$ catkin_make --source ./src/robotics_sdk/ros1/slam/hector_slam
-root@pc-docker:~/j7ros_home/ros_ws$ roslaunch hector_mapping scuttle_slam.launch
+root@pc-docker:~/j7ros_home/ros_ws$ roslaunch hector_slam_launch scuttle_slam.launch
 ```
 
-As the robot moves, we can see that the 2D occupancy grid map is updated. Once the map is successfully created, save the map using map_server. It saves the map into the pgm image format along with a YAML file. The YAML file and the pgm image should be in the same directory and the navigation demo can load it. 
+As the robot moves, we can see that the 2D occupancy grid map is updated. Once the map is successfully created, save the map using map_server on the J7 SK board as descried above in [J7 SK BOARD](#j7_sk).
 
-```shell
-root@pc-docker:~/j7ros_home/ros_ws$ rosrun map_server map_saver -f map_name
-```
 
 ## Editing a Map
-The created map may have some noises and errors in it. It is recommended to remove such noises and mapping errors using an image application such as gimp. For example, install and run gimp by the following commands.
+The created map may have some noises and errors in it. It is recommended to remove such noises and mapping errors using an image application such as gimp. For example, install and run gimp on Ubuntu PC by the following commands.
 
 ```shell
 user@pc:~/j7ros_home$ sudo apt-get update
