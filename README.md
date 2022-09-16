@@ -36,7 +36,7 @@ Once logged on to the SK board, clone the edgeai-robotics-demos repository.
 
 ``` shell
 root@tda4vm-sk:/opt/edge_ai_apps# mkdir -p /opt/robot && cd /opt/robot
-root@tda4vm-sk:/opt/robot# git clone https://github.com/TexasInstruments/edgeai-robotics-demos.git
+root@tda4vm-sk:/opt/robot# git clone -b EDGEAI_ROBOTICS_DEMOS_08.02.00.00 --single-branch https://github.com/TexasInstruments/edgeai-robotics-demos.git
 ```
 
 Then add the repository path to the PYTHONPATH.
