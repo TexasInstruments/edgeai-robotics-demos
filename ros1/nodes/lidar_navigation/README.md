@@ -227,9 +227,6 @@ To start autonomous navigation, the robot's initial pose estimate and the goal p
 
 ``` shell
 user@pc:~/j7ros_home$ ros_ws/src/edgeai-robotics-demos/docker/run_pc.sh
-root@pc-docker:~/j7ros_home/ros_ws$ mkdir -p ros1_build && cd ros1_build
-root@pc-docker:~/j7ros_home/ros_ws$ catkin_make --source src/scuttle_ws
-root@pc-docker:~/j7ros_home/ros_ws$ catkin_make --source src/edgeai-robotics-demos/ros1
 root@pc-docker:~/j7ros_home/ros_ws$ rviz -d /root/j7ros_home/ros_ws/src/edgeai-robotics-demos/ros1/rviz/lidar_navigation.rviz 
 ```
 
